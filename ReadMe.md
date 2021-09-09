@@ -24,5 +24,5 @@
 Run the file using
 
 ```
-python main.py
+python ./main.py
 ```
