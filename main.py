@@ -67,12 +67,14 @@ def drawText(screen, TXT_String, TXTsize, x, y):
 
 def drawHealthBar(surface, x, y, health):
     BAR_LENGTH, BAR_HEIGHT = 100, 10
+    # initialize the variables
     pct = max(health, 0)
+    # max() returns the item with the highest value
     fill = (pct / 100) * BAR_LENGTH
-    outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
-    pygame.draw.rect(surface, GREEN, fill_rect)
-    pygame.draw.rect(surface, WHITE, outline_rect, 2)
+    outlineRect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+    fillRect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    pygame.draw.rect(surface, GREEN, fillRect)
+    pygame.draw.rect(surface, WHITE, outlineRect, 2)
 
 # WHEN GAME ENDS
 
@@ -279,6 +281,7 @@ def main():
 
             # Initalize the score
             scoreBoard = 0
+            HITS_PLR = 0
 
         timer.tick(FPS)
         for event in pygame.event.get():
@@ -301,8 +304,9 @@ def main():
         # collide_circle = Collision detection between two sprites, using circles.
 
         for hits in hitCollision:
-            # NOTE need to lower the health
+            # Lowers the health
             player.health -= 20
+            HITS_PLR += 1
             EXPLOSION_SOUND.play()
             explosion = Explosion(hits.rect.center)
             all_sprites.add(explosion)
@@ -318,6 +322,7 @@ def main():
         drawHealthBar(WINDOW, 5, 5, player.health)
         scoreBoard += 1
         drawText(WINDOW, 'Score: ' + str(scoreBoard), 18, WIDTH / 2, 10)
+        drawText(WINDOW, 'HITS: ' + str(HITS_PLR), 18, WIDTH / 2, 30)
         pygame.display.update()
     all_sprites.draw(WINDOW)
 
